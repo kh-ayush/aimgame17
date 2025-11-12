@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ClickOrLoose.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ClickOrLoose" Height="450" Width="800">
+        Title="ClickOrLose" Height="450" Width="800">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="220"/>
@@ -12,15 +12,14 @@
                     Content="Start"
                     Width="100"
                     Height="30"
-                    Margin="0,0,0,10"
-                    Click="btnStart_Click"/>
+                    Margin="0,0,0,10"/>
 
             <TextBlock x:Name="lblReady"
                        Text="Ready!"
                        FontWeight="Bold"
+                       HorizontalAlignment="Center"
                        Margin="0,0,0,10"/>
 
-            <TextBlock Text="Spawn speed:" Margin="0,0,0,5"/>
             <Slider x:Name="sldSpeed"
                     Minimum="200"
                     Maximum="2000"
@@ -29,9 +28,6 @@
                     IsSnapToTickEnabled="True"
                     Width="180"
                     Margin="0,0,0,10"/>
-            <TextBlock x:Name="lblSpeedValue"
-                       Text="700 ms"
-                       Margin="0,0,0,10"/>
 
             <TextBlock x:Name="lblScore"
                        Text="Score: 0"
@@ -48,7 +44,6 @@
         <Canvas x:Name="GameCanvas"
                 Grid.Column="1"
                 Background="#FFF8F8F8"
-                Margin="10"
-                MouseLeftButtonDown="GameCanvas_MouseLeftButtonDown"/>
+                Margin="10"/>
     </Grid>
 </Window>
