@@ -23,7 +23,7 @@ namespace aimgame17.Classes
         private Size sceneSize;
         private double points;
 
-        public CController(double spawnRate, ulong startTime, Size sceneSize)
+        public CController(double spawnRate, int startTime, Size sceneSize)
         {
             rng = new Random();
             objects = new List<CObject>();
@@ -67,7 +67,7 @@ namespace aimgame17.Classes
             }
             for (int i = objects.Count - 1; i >= 0; i--)
             {
-                objects[i].Update(delta);
+                objects[i].UpdateLifetime(delta);
 
                 if (objects[i].Lifetime <= 0)
                 {
@@ -79,7 +79,7 @@ namespace aimgame17.Classes
         {
             for (int i = objects.Count - 1; i >= 0; i--)
             {
-                if (objects[i].Contains(mousePosition))
+                if (objects[i].isMouseOnObject(mousePosition))
                 {
                     points++;
                     destroyObject(objects[i]);
