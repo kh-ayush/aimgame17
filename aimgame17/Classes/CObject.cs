@@ -18,7 +18,7 @@ namespace aimgame17.Classes
         private double lifetime;
         private double pointsValue;
         private Ellipse dobryiSprite;
-
+        public double Lifetime => lifetime;
         public CObject(System.Drawing.Point position, double size, double lifetime)
         {
             this.position = position;
@@ -41,13 +41,26 @@ namespace aimgame17.Classes
             pointsValue = ((1 / this.size.Width) / lifetime) * 1000;
         }
 
-        public bool isMouseOnObject(System.Drawing.Point mousePosition) 
+        public bool isMouseOnObject(System.Drawing.Point mousePosition)
         {
-            if (position == mousePosition) return true;
-            return false;
+            System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(position, size);
+            return bounds.Contains(mousePosition);
         }
-        public Ellipse getSprite() { return dobryiSprite; }
-        public double getPointsValue() { return pointsValue; }
-        public bool updateLifetime(double delta) { return true; }
+
+        public Ellipse getSprite()
+        {
+            return dobryiSprite;
+        }
+
+        public double getPointsValue()
+        {
+            return pointsValue;
+        }
+
+        public bool updateLifetime(double delta)
+        {
+            lifetime -= delta;
+            return lifetime > 0;
+        }
     }
 }
