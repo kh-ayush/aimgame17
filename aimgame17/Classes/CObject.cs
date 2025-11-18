@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing; 
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -17,45 +12,38 @@ namespace aimgame17.Classes
         private System.Drawing.Size size;
         private double lifetime;
         private double pointsValue;
-        private Ellipse dobryiSprite;
+        private Ellipse sprite;
+
         public double Lifetime => lifetime;
+        public Ellipse Sprite => sprite;
+
         public CObject(System.Drawing.Point position, double size, double lifetime)
         {
             this.position = position;
             this.size = new System.Drawing.Size((int)size, (int)size);
             this.lifetime = lifetime;
 
-            dobryiSprite = new Ellipse();
+            sprite = new Ellipse();
+            sprite.Width = this.size.Width;
+            sprite.Height = this.size.Height;
 
-            dobryiSprite.Fill = Brushes.BlueViolet;
-            dobryiSprite.StrokeThickness = 2;
-            dobryiSprite.Stroke = Brushes.Black;
+            sprite.Fill = Brushes.BlueViolet;
+            sprite.Stroke = Brushes.Black;
+            sprite.StrokeThickness = 2;
 
-            dobryiSprite.HorizontalAlignment = HorizontalAlignment.Center;
-            dobryiSprite.VerticalAlignment = VerticalAlignment.Center;
+            sprite.RenderTransform = new TranslateTransform(position.X, position.Y);
 
-            dobryiSprite.Width = this.size.Width;
-            dobryiSprite.Height = this.size.Height;
-            dobryiSprite.RenderTransform = new TranslateTransform(position.X, position.Y);
-
-            pointsValue = ((1 / this.size.Width) / lifetime) * 1000;
+            //pointsValue = ((1 / this.size.Width) / lifetime) * 1000;
+            pointsValue = 1;
         }
 
-        public bool isMouseOnObject(System.Drawing.Point mousePosition)
+        public bool isMouseOnObject(System.Drawing.Point mousePos)
         {
-            System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(position, size);
-            return bounds.Contains(mousePosition);
+            System.Drawing.Rectangle rect = new System.Drawing.Rectangle(position, size);
+            return rect.Contains(mousePos);
         }
 
-        public Ellipse getSprite()
-        {
-            return dobryiSprite;
-        }
-
-        public double getPointsValue()
-        {
-            return pointsValue;
-        }
+        public double getPointsValue() => pointsValue;
 
         public bool updateLifetime(double delta)
         {

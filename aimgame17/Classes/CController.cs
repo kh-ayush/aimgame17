@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 
 namespace aimgame17.Classes
@@ -10,34 +7,32 @@ namespace aimgame17.Classes
     public class CController
     {
         private List<CObject> objects;
-        private double spawnRate;
-        private double time;
         private Random rng;
 
-        private double minLifetime;
-        private double maxLifetime;
-
-        private double minSpriteSize;
-        private double maxSpriteSize;
-
-        private Size sceneSize;
+        private double spawnRate;
+        private double time;
         private double points;
 
-        public CController(double spawnRate, int startTime, Size sceneSize)
+        private double minLifetime = 1;
+        private double maxLifetime = 5;
+        private double minSpriteSize = 20;
+        private double maxSpriteSize = 60;
+
+        private Size sceneSize;
+
+        public List<CObject> Objects => objects;
+        public double Points => points;
+
+        public CController(double spawnRate, double startTime, Size sceneSize)
         {
             rng = new Random();
             objects = new List<CObject>();
+
             this.spawnRate = spawnRate;
-            time = startTime;
             this.sceneSize = sceneSize;
 
+            time = startTime;
             points = 0;
-
-            minLifetime = 1;
-            maxLifetime = 5;
-
-            minSpriteSize = 10;
-            maxSpriteSize = 20;
         }
 
         public void spawnObject()
@@ -45,13 +40,13 @@ namespace aimgame17.Classes
             double lifetime = rng.NextDouble() * (maxLifetime - minLifetime) + minLifetime;
             double size = rng.NextDouble() * (maxSpriteSize - minSpriteSize) + minSpriteSize;
 
-            // Случайная позиция
             int x = rng.Next(0, sceneSize.Width - (int)size);
             int y = rng.Next(0, sceneSize.Height - (int)size);
 
             CObject obj = new CObject(new Point(x, y), size, lifetime);
             objects.Add(obj);
         }
+
         public void destroyObject(CObject obj)
         {
             objects.Remove(obj);
@@ -60,31 +55,33 @@ namespace aimgame17.Classes
         public void update(double delta)
         {
             time += delta;
+
             if (time >= spawnRate)
             {
                 spawnObject();
                 time = 0;
             }
+
             for (int i = objects.Count - 1; i >= 0; i--)
             {
-                objects[i].UpdateLifetime(delta);
-
-                if (objects[i].Lifetime <= 0)
-                {
+                if (!objects[i].updateLifetime(delta))
                     destroyObject(objects[i]);
-                }
             }
         }
-        public void mouseClick(Point mousePosition)
+
+        public CObject mouseClick(Point mousePos)
         {
             for (int i = objects.Count - 1; i >= 0; i--)
             {
-                if (objects[i].isMouseOnObject(mousePosition))
+                if (objects[i].isMouseOnObject(mousePos))
                 {
-                    points++;
-                    destroyObject(objects[i]);
+                    points += objects[i].getPointsValue();
+                    CObject CurObj = objects[i];
+                    destroyObject(CurObj);
+                    return CurObj;
                 }
             }
+            return null;
         }
     }
 }
