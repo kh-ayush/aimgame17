@@ -43,7 +43,6 @@ namespace aimgame17
 
             lblScore.Text = "Score: 0";
             lblReady.Text = "Game Started!";
-            lstLog.Items.Clear();
 
             timer.Start();
         }
